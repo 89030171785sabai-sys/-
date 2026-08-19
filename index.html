@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Холодный обзвон с оплатой за лид — первые клиенты за 3 дня</title>
+<style>
+:root{
+  --ink:#14201a;        /* глубокий графит-зелёный */
+  --ink-soft:#3a4b42;
+  --paper:#f6f2e9;      /* тёплая бумага */
+  --paper-2:#efe8d8;
+  --line:#ddd3bf;
+  --gold:#c6a25a;       /* латунь */
+  --gold-deep:#9a7b3f;
+  --signal:#e2603d;     /* сигнальный терракот-акцент, только для действия */
+  --white:#fffdf8;
+  --shadow:0 18px 50px -24px rgba(20,32,26,.45);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Georgia","Times New Roman",serif;
+  color:var(--ink);
+  background:var(--paper);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.mono,.eyebrow,.btn,nav,.tariff-price,.stat-num{
+  font-family:"Helvetica Neue",Arial,sans-serif;
+}
+.wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+.eyebrow{
+  font-size:12px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--gold-deep);font-weight:700;margin-bottom:14px;
+}
+section{padding:88px 0;border-bottom:1px solid var(--line)}
+h2{font-size:clamp(26px,3.4vw,40px);line-height:1.1;font-weight:800;letter-spacing:-.01em;margin-bottom:14px}
+.lead{font-size:19px;color:var(--ink-soft);max-width:60ch;margin-bottom:40px}
+
+/* buttons */
+.btn{
+  display:inline-flex;align-items:center;gap:10px;cursor:pointer;
+  border:none;border-radius:2px;font-weight:700;font-size:15px;
+  padding:16px 30px;letter-spacing:.02em;transition:.18s ease;text-decoration:none;
+}
+.btn-primary{background:var(--signal);color:#fff;box-shadow:0 10px 24px -10px rgba(226,96,61,.7)}
+.btn-primary:hover{transform:translateY(-2px);background:#cf5233}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}
+.btn-ghost:hover{background:var(--ink);color:var(--paper)}
+
+/* ---------- HEADER ---------- */
+header{position:sticky;top:0;z-index:50;background:rgba(246,242,233,.92);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:70px}
+.logo{display:flex;align-items:center;gap:11px;font-family:Arial,sans-serif;font-weight:800;font-size:18px;letter-spacing:.01em}
+.logo .dot{width:30px;height:30px;border-radius:50%;background:var(--ink);
+  display:grid;place-items:center;color:var(--gold);font-size:15px;font-weight:800}
+nav{display:flex;gap:26px;font-size:14px;font-weight:600}
+nav a{color:var(--ink-soft);text-decoration:none;transition:.15s}
+nav a:hover{color:var(--ink)}
+.head-cta{display:flex;align-items:center;gap:18px}
+.phone{font-family:Arial,sans-serif;font-weight:800;font-size:16px;color:var(--ink);text-decoration:none;white-space:nowrap}
+.menu-toggle{display:none;background:none;border:none;font-size:24px;color:var(--ink);cursor:pointer}
+@media(max-width:880px){nav,.head-cta .phone{display:none}.menu-toggle{display:block}}
+
+/* ---------- HERO ---------- */
+.hero{padding:70px 0 84px;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;right:-140px;top:-120px;width:520px;height:520px;
+  border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(198,162,90,.28),transparent 62%)}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;position:relative}
+.hero h1{font-size:clamp(30px,4.4vw,52px);line-height:1.08;font-weight:800;letter-spacing:-.02em;margin-bottom:26px}
+.hero h1 .hl{background:linear-gradient(transparent 62%,rgba(198,162,90,.5) 0);padding:0 3px}
+.promise{list-style:none;display:flex;flex-direction:column;gap:14px;margin-bottom:34px}
+.promise li{display:flex;align-items:flex-start;gap:14px;font-size:17px;color:var(--ink-soft)}
+.promise .n{flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--gold);
+  color:var(--gold-deep);display:grid;place-items:center;font-family:Arial,sans-serif;font-weight:800;font-size:13px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.hero-note{font-size:14px;color:var(--ink-soft);margin-top:16px}
+.hero-note b{color:var(--ink)}
+/* hero card */
+.hero-card{background:var(--white);border:1px solid var(--line);border-radius:6px;
+  box-shadow:var(--shadow);padding:30px}
+.hero-card .tag{font-family:Arial,sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-deep);font-weight:700}
+.hero-card h3{font-size:22px;font-weight:800;margin:6px 0 20px}
+.mini-metrics{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px}
+.mini-metrics div{border-left:2px solid var(--gold)}
+.mini-metrics .mm-num{font-family:Arial,sans-serif;font-size:30px;font-weight:800;color:var(--ink);padding-left:12px;line-height:1}
+.mini-metrics .mm-lab{font-size:13px;color:var(--ink-soft);padding-left:12px;margin-top:4px}
+.hero-card .paybar{background:var(--paper-2);border-radius:4px;padding:14px 16px;font-size:14px;color:var(--ink-soft)}
+.hero-card .paybar b{color:var(--ink)}
+@media(max-width:880px){.hero-grid{grid-template-columns:1fr;gap:36px}}
+
+/* ---------- PRODUCT ---------- */
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;margin-top:16px}
+.prod-card{background:var(--white);border:1px solid var(--line);border-radius:5px;padding:28px}
+.prod-card .ico{font-size:26px;margin-bottom:14px}
+.prod-card h3{font-size:19px;font-weight:800;margin-bottom:8px}
+.prod-card p{font-size:15px;color:var(--ink-soft)}
+@media(max-width:880px){.prod-grid{grid-template-columns:1fr}}
+
+/* ---------- ADVANTAGES ---------- */
+.adv{background:var(--ink);color:var(--paper);border-bottom:none}
+.adv h2{color:var(--white)}
+.adv .lead{color:#c8d2ca}
+.adv .eyebrow{color:var(--gold)}
+.adv-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:20px}
+.adv-item{border-top:2px solid var(--gold);padding-top:18px}
+.adv-item h3{font-size:17px;font-weight:800;color:var(--white);margin-bottom:8px;font-family:Arial,sans-serif}
+.adv-item p{font-size:14.5px;color:#b6c1b8}
+@media(max-width:880px){.adv-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.adv-grid{grid-template-columns:1fr}}
+
+/* ---------- PROBLEM / SOLUTION ---------- */
+.ps-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:20px;border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.ps-col{padding:36px}
+.ps-prob{background:var(--paper-2)}
+.ps-sol{background:var(--white)}
+.ps-col h3{font-family:Arial,sans-serif;font-size:14px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:22px;font-weight:800}
+.ps-prob h3{color:#a6543f}
+.ps-sol h3{color:var(--gold-deep)}
+.ps-list{list-style:none;display:flex;flex-direction:column;gap:16px}
+.ps-list li{display:flex;gap:12px;font-size:15.5px;color:var(--ink-soft);line-height:1.5}
+.ps-list .mk{flex:none;font-family:Arial,sans-serif;font-weight:800}
+.ps-prob .mk{color:#c0674f}
+.ps-sol .mk{color:var(--gold-deep)}
+@media(max-width:760px){.ps-grid{grid-template-columns:1fr}}
+
+/* ---------- SOCIAL PROOF ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-bottom:52px}
+.stat{text-align:left;border-left:3px solid var(--gold);padding-left:16px}
+.stat-num{font-size:42px;font-weight:800;color:var(--ink);line-height:1}
+.stat-lab{font-size:14px;color:var(--ink-soft);margin-top:6px}
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.quote{background:var(--white);border:1px solid var(--line);border-radius:5px;padding:26px;display:flex;flex-direction:column}
+.quote p{font-size:15px;color:var(--ink-soft);font-style:italic;margin-bottom:18px}
+.quote .who{margin-top:auto;font-family:Arial,sans-serif;font-size:13.5px}
+.quote .who b{display:block;color:var(--ink);font-weight:800}
+.quote .who span{color:var(--gold-deep)}
+.quote .conv{font-family:Arial,sans-serif;font-weight:800;color:var(--gold-deep);font-size:13px;margin-bottom:14px;letter-spacing:.04em}
+@media(max-width:880px){.stats{grid-template-columns:1fr 1fr}.quotes{grid-template-columns:1fr}}
+
+/* ---------- PRICING ---------- */
+.tariffs{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:20px}
+.tariff{background:var(--white);border:1px solid var(--line);border-radius:6px;padding:32px 28px;display:flex;flex-direction:column;position:relative}
+.tariff.pop{border:2px solid var(--gold);box-shadow:var(--shadow)}
+.tariff .badge{position:absolute;top:-12px;left:28px;background:var(--gold);color:#2a2010;
+  font-family:Arial,sans-serif;font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:5px 12px;border-radius:2px}
+.tariff h3{font-family:Arial,sans-serif;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-deep);font-weight:800;margin-bottom:16px}
+.tariff-price{font-size:38px;font-weight:800;color:var(--ink);line-height:1}
+.tariff-price small{font-size:16px;color:var(--ink-soft);font-weight:600}
+.tariff .per{font-size:14px;color:var(--ink-soft);margin:6px 0 22px}
+.tariff ul{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:26px}
+.tariff li{font-size:14.5px;color:var(--ink-soft);display:flex;gap:10px}
+.tariff li:before{content:"—";color:var(--gold);font-weight:800}
+.tariff .btn{margin-top:auto;justify-content:center;width:100%}
+.price-note{margin-top:26px;font-size:14px;color:var(--ink-soft);text-align:center}
+@media(max-width:880px){.tariffs{grid-template-columns:1fr}}
+
+/* ---------- STEPS ---------- */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:24px;counter-reset:step}
+.step{padding:28px 22px 28px 0;position:relative}
+.step:not(:last-child){border-right:1px dashed var(--line)}
+.step .num{font-family:Arial,sans-serif;font-size:13px;font-weight:800;color:var(--gold-deep);letter-spacing:.1em;margin-bottom:14px}
+.step h3{font-size:17px;font-weight:800;margin-bottom:8px}
+.step p{font-size:14px;color:var(--ink-soft)}
+@media(max-width:880px){.steps{grid-template-columns:1fr 1fr}.step{border-right:none!important;border-bottom:1px dashed var(--line);padding:22px 0}}
+@media(max-width:520px){.steps{grid-template-columns:1fr}}
+
+/* ---------- FORM ---------- */
+.form-sec{background:var(--ink);color:var(--paper);border-bottom:none}
+.form-sec .eyebrow{color:var(--gold)}
+.form-sec h2{color:var(--white)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start;margin-top:14px}
+.form-benefits{list-style:none;display:flex;flex-direction:column;gap:18px}
+.form-benefits li{display:flex;gap:14px;font-size:16px;color:#c8d2ca}
+.form-benefits .g{flex:none;color:var(--gold);font-weight:800}
+.form-card{background:var(--white);border-radius:8px;padding:32px;box-shadow:var(--shadow)}
+.form-card h3{color:var(--ink);font-size:21px;font-weight:800;margin-bottom:6px}
+.form-card p.sub{color:var(--ink-soft);font-size:14px;margin-bottom:22px}
+.field{margin-bottom:16px}
+.field label{display:block;font-family:Arial,sans-serif;font-size:13px;font-weight:700;color:var(--ink);margin-bottom:6px}
+.field input,.field select{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:4px;
+  font-family:Arial,sans-serif;font-size:15px;color:var(--ink);background:var(--paper)}
+.field input:focus,.field select:focus{outline:none;border-color:var(--gold)}
+.form-card .btn{width:100%;justify-content:center;margin-top:6px}
+.consent{font-size:12px;color:var(--ink-soft);margin-top:14px;text-align:center}
+.consent a{color:var(--gold-deep)}
+@media(max-width:880px){.form-grid{grid-template-columns:1fr;gap:32px}}
+
+/* ---------- GUARANTEE ---------- */
+.guar-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:20px}
+.guar{background:var(--white);border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:4px;padding:26px}
+.guar h3{font-size:16px;font-weight:800;margin-bottom:8px;font-family:Arial,sans-serif}
+.guar p{font-size:14.5px;color:var(--ink-soft)}
+@media(max-width:880px){.guar-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.guar-grid{grid-template-columns:1fr}}
+
+/* ---------- FAQ ---------- */
+.faq-list{max-width:820px;margin-top:20px}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-q{width:100%;text-align:left;background:none;border:none;cursor:pointer;
+  padding:24px 0;font-family:Arial,sans-serif;font-size:18px;font-weight:700;color:var(--ink);
+  display:flex;justify-content:space-between;gap:20px;align-items:center}
+.faq-q .pm{flex:none;color:var(--gold-deep);font-size:24px;transition:.2s}
+.faq-item.open .pm{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.faq-a p{padding:0 0 24px;font-size:15.5px;color:var(--ink-soft);max-width:70ch}
+
+/* ---------- CONTACTS ---------- */
+.contacts{background:var(--paper-2)}
+.contacts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:20px}
+.contact-block h3{font-family:Arial,sans-serif;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:10px;font-weight:800}
+.contact-block a,.contact-block p{font-size:18px;color:var(--ink);text-decoration:none;display:block;font-family:Arial,sans-serif;font-weight:600}
+.contact-block span{font-size:14px;color:var(--ink-soft);font-family:Arial,sans-serif;font-weight:400}
+@media(max-width:760px){.contacts-grid{grid-template-columns:1fr;gap:24px}}
+
+/* ---------- FOOTER ---------- */
+footer{background:var(--ink);color:#9fb0a5;padding:44px 0;border-bottom:none}
+.foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+.foot .logo{color:var(--paper)}
+.foot .logo .dot{background:var(--gold);color:var(--ink)}
+.foot p{font-size:13px}
+.foot a{color:var(--gold);text-decoration:none}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="wrap bar">
+    <div class="logo"><span class="dot">З</span> ЗвоноЛид</div>
+    <nav>
+      <a href="#product">Услуги</a>
+      <a href="#advantages">Преимущества</a>
+      <a href="#pricing">Тарифы</a>
+      <a href="#steps">Этапы</a>
+      <a href="#faq">Вопросы</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <div class="head-cta">
+      <a href="tel:+78005550556" class="phone">8 800 555-0-556</a>
+      <a href="#form" class="btn btn-primary">Обсудить проект</a>
+    </div>
+    <button class="menu-toggle" aria-label="Меню">☰</button>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Холодный обзвон · Телемаркетинг · Лидогенерация</div>
+      <h1>Приведу первых клиентов через <span class="hl">холодный обзвон за 3 дня</span> — онлайн, с оплатой за лид и без доплат за срочность</h1>
+      <ul class="promise">
+        <li><span class="n">1&nbsp;мин</span><span>Отвечаю на заявку в течение одной минуты в рабочее время</span></li>
+        <li><span class="n">1&nbsp;час</span><span>Оцениваю ваш проект и прогнозирую конверсию за час</span></li>
+        <li><span class="n">1&nbsp;день</span><span>Присылаю скрипт разговора и целевую базу за первый день</span></li>
+        <li><span class="n">✓</span><span>Даю гарантию количества и качества заявок — минимум лидов закреплён в договоре</span></li>
+      </ul>
+      <div class="hero-actions">
+        <a href="#form" class="btn btn-primary">Получить 20 бесплатных тестовых звонков</a>
+        <a href="#pricing" class="btn btn-ghost">Смотреть тарифы</a>
+      </div>
+      <p class="hero-note">Работаю по всей России · базу подберу сам · <b>первый результат — за 3 дня</b></p>
+    </div>
+
+    <aside class="hero-card">
+      <div class="tag">Расчёт за 1 час</div>
+      <h3>Что вы получаете на входе</h3>
+      <div class="mini-metrics">
+        <div><div class="mm-num">от&nbsp;350&nbsp;₽</div><div class="mm-lab">цена целевого лида</div></div>
+        <div><div class="mm-num">от&nbsp;5%</div><div class="mm-lab">конверсия в лид</div></div>
+        <div><div class="mm-num">≥&nbsp;5</div><div class="mm-lab">попыток дозвона до ЛПР</div></div>
+        <div><div class="mm-num">3&nbsp;дн</div><div class="mm-lab">до первых заявок</div></div>
+      </div>
+      <div class="paybar">Скрипт, сбор базы и подготовка проекта — <b>бесплатно</b>. Платите за состоявшийся диалог с ЛПР, а не за минуты.</div>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ PRODUCT ============ -->
+<section id="product">
+  <div class="wrap">
+    <div class="eyebrow">Что я делаю</div>
+    <h2>Удалённый колл-центр, который продаёт за вас</h2>
+    <p class="lead">Беру на себя весь исходящий обзвон: от сбора базы и написания скрипта до передачи вам тёплых заявок в реальном времени. Ваши менеджеры занимаются продажами, а не поиском контактов.</p>
+    <div class="prod-grid">
+      <div class="prod-card">
+        <div class="ico">📞</div>
+        <h3>Холодные звонки</h3>
+        <p>Выход на ЛПР, презентация продукта, отработка возражений и передача заинтересованных контактов вашему отделу продаж.</p>
+      </div>
+      <div class="prod-card">
+        <div class="ico">🎯</div>
+        <h3>Лидогенерация</h3>
+        <p>Подберу и проработаю базу под ваш портрет клиента. Оплата — только за целевой лид, подтверждённый вами.</p>
+      </div>
+      <div class="prod-card">
+        <div class="ico">🔁</div>
+        <h3>Возврат клиентов</h3>
+        <p>Реактивирую «спящую» базу: напомню о себе, верну ушедших покупателей и соберу обратную связь.</p>
+      </div>
+      <div class="prod-card">
+        <div class="ico">📋</div>
+        <h3>Опросы и анкетирование</h3>
+        <p>NPS, маркетинговые исследования и актуализация базы. Результат — в понятном отчёте с цифрами.</p>
+      </div>
+      <div class="prod-card">
+        <div class="ico">🗂️</div>
+        <h3>База под ключ</h3>
+        <p>Соберу актуальную базу юрлиц под ваш ОКВЭД, регион и размер компании из открытых источников.</p>
+      </div>
+      <div class="prod-card">
+        <div class="ico">📊</div>
+        <h3>Прозрачный отчёт</h3>
+        <p>Excel с конверсиями, статусами каждого звонка и записями разговоров — доступ круглосуточно.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ADVANTAGES ============ -->
+<section id="advantages" class="adv">
+  <div class="wrap">
+    <div class="eyebrow">Почему со мной</div>
+    <h2>Плачу вниманием к результату, а не к минутам</h2>
+    <p class="lead">Четыре принципа, которые отличают работу от типового колл-центра «за пакет минут».</p>
+    <div class="adv-grid">
+      <div class="adv-item">
+        <h3>Оплата за лид</h3>
+        <p>Вы платите за состоявшийся диалог с ЛПР. За разговоры с секретарём и недозвоны — нет.</p>
+      </div>
+      <div class="adv-item">
+        <h3>Запуск за 3 дня</h3>
+        <p>Скрипт, база и обучение оператора готовы к первому звонку без доплат за срочность.</p>
+      </div>
+      <div class="adv-item">
+        <h3>Контроль в реальном времени</h3>
+        <p>Слушаете записи, меняете скрипт, видите конверсию в личном кабинете в любой момент.</p>
+      </div>
+      <div class="adv-item">
+        <h3>Работа по закону</h3>
+        <p>Юрлиц обзваниваю без ограничений. Физлиц — только по вашей базе с ФИО, по 152-ФЗ.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROBLEM / SOLUTION ============ -->
+<section id="problem">
+  <div class="wrap">
+    <div class="eyebrow">Знакомо?</div>
+    <h2>Проблема и решение</h2>
+    <div class="ps-grid">
+      <div class="ps-col ps-prob">
+        <h3>Как обычно</h3>
+        <ul class="ps-list">
+          <li><span class="mk">✕</span>Менеджеры «сгорают» на холодных звонках вместо продаж.</li>
+          <li><span class="mk">✕</span>Колл-центр берёт деньги за минуты — платите за разговоры с секретарями.</li>
+          <li><span class="mk">✕</span>Нет базы и скрипта, запуск растягивается на месяц.</li>
+          <li><span class="mk">✕</span>Отчёт — сухая таблица без конверсий и записей.</li>
+          <li><span class="mk">✕</span>За срочный старт просят двойную цену.</li>
+        </ul>
+      </div>
+      <div class="ps-col ps-sol">
+        <h3>Как со мной</h3>
+        <ul class="ps-list">
+          <li><span class="mk">✓</span>Обзвон беру на себя — команда фокусируется на закрытии сделок.</li>
+          <li><span class="mk">✓</span>Плата только за целевой лид с ЛПР, подтверждённый вами.</li>
+          <li><span class="mk">✓</span>Базу и скрипт готовлю бесплатно, первый звонок — за 3 дня.</li>
+          <li><span class="mk">✓</span>Excel с конверсиями, статусами и записями каждого разговора.</li>
+          <li><span class="mk">✓</span>Срочность не удорожает проект — цена фиксируется в договоре.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOCIAL PROOF ============ -->
+<section id="proof">
+  <div class="wrap">
+    <div class="eyebrow">Доказательства</div>
+    <h2>Цифры и отзывы, а не обещания</h2>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">50+</div><div class="stat-lab">отраслей в работе</div></div>
+      <div class="stat"><div class="stat-num">33%</div><div class="stat-lab">конверсия в лид в лучших проектах</div></div>
+      <div class="stat"><div class="stat-num">500+</div><div class="stat-lab">компаний-заказчиков</div></div>
+      <div class="stat"><div class="stat-num">3&nbsp;дн</div><div class="stat-lab">до первых заявок</div></div>
+    </div>
+    <div class="quotes">
+      <div class="quote">
+        <div class="conv">Конверсия 30% в отправку КП</div>
+        <p>«Операторы совершили 150 холодных звонков, 30% завершились отправкой коммерческого предложения. Сэкономили ресурс региональных менеджеров на первичном контакте.»</p>
+        <div class="who"><b>Производственная компания</b><span>B2B, поставки оборудования</span></div>
+      </div>
+      <div class="quote">
+        <div class="conv">33% лидов закрылись в продажу</div>
+        <p>«Сложная ниша для телемаркетинга, но результат пошёл уже в первый месяц: 6 лидов, 2 из них — сделки. Оперативный запуск и погружение в продукт.»</p>
+        <div class="who"><b>IT-разработка на базе 1С</b><span>аутсорсинг продаж</span></div>
+      </div>
+      <div class="quote">
+        <div class="conv">21–32 лида в месяц на оператора</div>
+        <p>«Тщательно подготовились: разработали скрипты, изучили специфику продукции. Вернули покупателей, которые давно не заказывали.»</p>
+        <div class="who"><b>Оптовая торговля</b><span>реактивация базы</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="eyebrow">Тарифы</div>
+    <h2>Прозрачная цена — выбираете по объёму</h2>
+    <p class="lead">Подготовка проекта, скрипт и сбор базы входят в старт. Точную стоимость лида зафиксируем после бесплатного теста.</p>
+    <div class="tariffs">
+      <div class="tariff">
+        <h3>Тест</h3>
+        <div class="tariff-price">8 000&nbsp;<small>₽</small></div>
+        <div class="per">разовый пакет</div>
+        <ul>
+          <li>100 целевых звонков</li>
+          <li>Гарантия от 5 лидов</li>
+          <li>Скрипт и база — бесплатно</li>
+          <li>Excel-отчёт с записями</li>
+        </ul>
+        <a href="#form" class="btn btn-ghost">Запустить тест</a>
+      </div>
+      <div class="tariff pop">
+        <div class="badge">Популярный</div>
+        <h3>За лид</h3>
+        <div class="tariff-price">от 350&nbsp;<small>₽ / лид</small></div>
+        <div class="per">оплата за результат</div>
+        <ul>
+          <li>Платите за диалог с ЛПР</li>
+          <li>Секретари и недозвоны — 0 ₽</li>
+          <li>≥ 5 попыток дозвона</li>
+          <li>Первые заявки за 3 дня</li>
+          <li>Личный кабинет с записями</li>
+        </ul>
+        <a href="#form" class="btn btn-primary">Рассчитать проект</a>
+      </div>
+      <div class="tariff">
+        <h3>Абонемент</h3>
+        <div class="tariff-price">от 35 000&nbsp;<small>₽ / мес</small></div>
+        <div class="per">под ключ, с менеджером</div>
+        <ul>
+          <li>Выделенный менеджер проекта</li>
+          <li>1 100+ минут работы операторов</li>
+          <li>Разработка и обновление скрипта</li>
+          <li>Проверка базы на дозваниваемость</li>
+        </ul>
+        <a href="#form" class="btn btn-ghost">Обсудить объём</a>
+      </div>
+    </div>
+    <p class="price-note">Оплата за лид фиксируется в договоре после теста. Никаких скрытых доплат — вы заранее знаете, за что платите.</p>
+  </div>
+</section>
+
+<!-- ============ STEPS ============ -->
+<section id="steps">
+  <div class="wrap">
+    <div class="eyebrow">Как мы работаем</div>
+    <h2>От заявки до первых лидов — 3 дня</h2>
+    <div class="steps">
+      <div class="step"><div class="num">ШАГ 01 · 1 час</div><h3>Заявка и расчёт</h3><p>Отвечаю за минуту, оцениваю проект и прогнозирую конверсию за час.</p></div>
+      <div class="step"><div class="num">ШАГ 02 · 1 день</div><h3>Скрипт и база</h3><p>Пишу продающий сценарий и собираю целевую базу под ваш портрет клиента.</p></div>
+      <div class="step"><div class="num">ШАГ 03</div><h3>Бесплатный тест</h3><p>15–20 звонков по вашему проекту, чтобы вы услышали работу до старта.</p></div>
+      <div class="step"><div class="num">ШАГ 04</div><h3>Обзвон и лиды</h3><p>Дозваниваюсь до ЛПР и передаю тёплые заявки в реальном времени.</p></div>
+      <div class="step"><div class="num">ШАГ 05</div><h3>Отчёт и рост</h3><p>Присылаю Excel с конверсиями, правлю скрипт и масштабирую результат.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FORM ============ -->
+<section id="form" class="form-sec">
+  <div class="wrap">
+    <div class="eyebrow">Заявка</div>
+    <h2>Начните с бесплатного теста</h2>
+    <div class="form-grid">
+      <ul class="form-benefits">
+        <li><span class="g">→</span>Сделаю 20 бесплатных тестовых звонков по вашему проекту.</li>
+        <li><span class="g">→</span>Покажу отчёт с записями и посчитаю реальную стоимость лида.</li>
+        <li><span class="g">→</span>Скрипт и сбор базы — бесплатно, без обязательств.</li>
+        <li><span class="g">→</span>Отвечу на заявку в течение одной минуты в рабочее время.</li>
+      </ul>
+      <form class="form-card" onsubmit="event.preventDefault();this.querySelector('.btn').textContent='Заявка отправлена ✓';">
+        <h3>Рассчитать проект</h3>
+        <p class="sub">Оставьте контакты — вернусь с расчётом и планом за 1 час.</p>
+        <div class="field"><label>Ваше имя</label><input type="text" placeholder="Как к вам обращаться" required></div>
+        <div class="field"><label>Телефон</label><input type="tel" placeholder="+7 ___ ___-__-__" required></div>
+        <div class="field"><label>Сфера бизнеса</label>
+          <select><option>Услуги B2B</option><option>Производство / оптом</option><option>Онлайн-школа / образование</option><option>Салон / бьюти / клиника</option><option>Недвижимость</option><option>Другое</option></select>
+        </div>
+        <div class="field"><label>Есть своя база?</label>
+          <select><option>Нет — соберите базу</option><option>Да — работаем по моей базе</option></select>
+        </div>
+        <button class="btn btn-primary">Получить расчёт за 1 час</button>
+        <p class="consent">Нажимая кнопку, вы соглашаетесь с <a href="#">политикой конфиденциальности</a>.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GUARANTEE ============ -->
+<section id="guarantee">
+  <div class="wrap">
+    <div class="eyebrow">Гарантии</div>
+    <h2>Что закрепляю в договоре</h2>
+    <div class="guar-grid">
+      <div class="guar"><h3>Гарантия лидов</h3><p>Минимальное количество целевых лидов прописано в договоре. Не достигли — не платите.</p></div>
+      <div class="guar"><h3>Без доплат за срочность</h3><p>Цена фиксируется на старте. Срочный запуск не удорожает проект.</p></div>
+      <div class="guar"><h3>Только диалоги с ЛПР</h3><p>Повторные разговоры с секретарём и недозвоны не тарифицируются.</p></div>
+      <div class="guar"><h3>Правки до результата</h3><p>Корректирую скрипт и базу по ходу проекта, пока не выйдем на плановую конверсию.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="eyebrow">Вопросы</div>
+    <h2>Часто спрашивают</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q">Как быстро можно запустить обзвон?<span class="pm">+</span></button>
+        <div class="faq-a"><p>Первый звонок — в течение 3 дней. Расчёт и план присылаю за 1 час после заявки, скрипт и базу готовлю за первый день.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Почему оплата за лид, а не за минуты?<span class="pm">+</span></button>
+        <div class="faq-a"><p>Оплата за минуты мотивирует «наговаривать» время. Я работаю за результат: вы платите за состоявшийся диалог с лицом, принимающим решение, и сами подтверждаете каждый лид как оплачиваемый.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">У меня нет базы контактов. Это проблема?<span class="pm">+</span></button>
+        <div class="faq-a"><p>Нет. Соберу актуальную базу юрлиц под ваш портрет клиента — по ОКВЭД, региону и размеру компании — из открытых источников. Сбор базы входит в подготовку бесплатно.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Сколько стоит и от чего зависит цена?<span class="pm">+</span></button>
+        <div class="faq-a"><p>Тестовый пакет — 8 000 ₽ за 100 звонков с гарантией 5 лидов. Дальше — от 350 ₽ за целевой лид. Точную стоимость фиксируем после теста, когда видна реальная конверсия по вашей нише.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Можно ли обзванивать физлиц?<span class="pm">+</span></button>
+        <div class="faq-a"><p>Физлиц обзваниваю только по вашей базе с ФИО в рамках 152-ФЗ. Юрлиц — без ограничений, базу подбираю сам. Спарсенные базы без имён в работу не беру.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Как я контролирую качество?<span class="pm">+</span></button>
+        <div class="faq-a"><p>В личном кабинете доступны записи всех разговоров, статусы по каждому звонку и конверсия в реальном времени. Скрипт можно править на ходу, оператора — заменить.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACTS ============ -->
+<section id="contacts" class="contacts">
+  <div class="wrap">
+    <div class="eyebrow">Контакты</div>
+    <h2>Свяжитесь удобным способом</h2>
+    <div class="contacts-grid">
+      <div class="contact-block">
+        <h3>Телефон</h3>
+        <a href="tel:+78005550556">8 800 555-0-556</a>
+        <span>звонок по России бесплатный</span>
+      </div>
+      <div class="contact-block">
+        <h3>Почта и мессенджеры</h3>
+        <a href="mailto:vresurse@bk.ru">vresurse@bk.ru</a>
+        <a href="https://t.me/vresurse7">t.me/vresurse7</a><span>Telegram — отвечаю за 1 минуту</span>
+      </div>
+      <div class="contact-block">
+        <h3>Режим работы</h3>
+        <p>Пн–Пт, 9:00–19:00 МСК</p>
+        <span>приём заявок — круглосуточно</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap foot">
+    <div class="logo"><span class="dot">З</span> ЗвоноЛид</div>
+    <p>© 2026 ЗвоноЛид — холодный обзвон с оплатой за результат. <a href="#">Политика конфиденциальности</a></p>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item=q.parentElement;
+    const ans=item.querySelector('.faq-a');
+    const open=item.classList.toggle('open');
+    ans.style.maxHeight=open?ans.scrollHeight+'px':0;
+  });
+});
+</script>
+</body>
+</html>
